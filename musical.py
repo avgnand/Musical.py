@@ -183,7 +183,7 @@ def construct_mode_space(note) -> dict:
 def get_search_note():
     msg = "Enter a note to find the keys in which it appears: "
     search_note = input(msg)
-    return search_note
+    return search_note.capitalize()
 
 def do_search(search_note):
     search_results = []
@@ -203,43 +203,10 @@ for note in A_CHROMATIC:
 #     m_scales.update({f"{note}": minor_scale(f"{note}")})
 
 # A master dictionary containing all notes in A Chromatic, and respective keys' mode-spaces
+# local "all_modes.json" file created by following lines
+# import json
 Mode_Master = {key: construct_mode_space(key) for key in A_CHROMATIC}
+# Mode_Master_data = json.dumps(Mode_Master)
 
-# Experiment: Search mode-spaces for all modes that contain a given note
-# Insights: If one mode for a key contains a note, all the key's modes will also; 
-#   So, searching one mode is sufficient to searching a given key for a note
-# msg = "Enter a note to find the keys in which it appears: "
-# search_note = input(msg)
-# search_results = []
-
-# # SEARCH v1 // Searches all modes of a key, but one is enough
-# # All notes in A_CHROMATIC
-# # for musKey in Mode_Master.keys():
-# #     # Single mode space
-# #     musModes = Mode_Master.get(musKey)
-# #     # All modes for given mode space
-# #     for mode in musModes.keys():
-# #         # The notes for a mode
-# #         musScale = musModes.get(mode)
-# #         if search_note in musScale:
-# #             search_results.append((musKey, mode))
-
-# # SEARCH v2 // Searches first mode of a key only
-# for musKey in Mode_Master.keys():
-#     modes = Mode_Master.get(musKey)
-#     search_mode = modes["IONIAN"]
-#     if search_note in search_mode:
-#         search_results.append(musKey)
-# print(search_results)
-
-def main():
-    while True:
-        note = get_search_note()
-        results = do_search(note)
-        print(results)
-        cont = input("Start new search?[y/n] ")
-        if cont != "y":
-            break
-
-if __name__ == '__main__':
-    main()
+# with open("all_modes.json", 'a') as f:
+#     f.write(Mode_Master_data)
