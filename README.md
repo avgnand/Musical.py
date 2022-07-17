@@ -3,6 +3,8 @@ A small project that allows the user to find which musical keys contain a given 
 
 `all_modes.json` contains a dictionary of all notes of the A Chromatic scale, mapped to arrays of scales in the six basic modes (i.e., *Ionian* through *Locrian*).
 
+`mode_space.json` is a more compact version of `all_modes.json`, where each mode is mapped to a string that contains the relevant notes in order.
+
 ## Work in Progess
 Currently, the program just asks the user to enter a note name to see which key signatures it is a member of.
 
