@@ -165,6 +165,22 @@ def make_modes(scale, pos) -> dict:
         k = (k + 1) % (len(scale) - 1)
     return {label: mode}
 
+def make_modes_compact(scale: list, pos: int) -> dict:
+    """
+    Refactored version of 'make_modes()'.
+    Returns a dictionary with the key being the relevant mode's name
+    and the value being a space-delimited string of the mode's notes in order.
+    """
+    if pos > 7:
+        pos %= 7
+    label = MusicMode(pos).name
+    mode = ""
+    k = pos
+    for _ in range(len(scale)):
+        mode += scale[k] + " "
+        k = (k + 1) % (len(scale) - 1)
+    return {label: mode.rstrip()}
+
 def construct_mode_space(note) -> dict:
     """
     Given a note (string), construct and aggregate all modes of the relevant key. 
@@ -178,6 +194,19 @@ def construct_mode_space(note) -> dict:
     mode_space = {}
     for i in range(7):
         mode_space.update(make_modes(scale, i))
+    return mode_space
+
+def construct_mode_space_compact(note: str) -> dict:
+    """
+    Refactored version of 'construct_mode_space()'.
+    Returns a dictionary representing all modes of a particular musical key.
+    Key is the name of the musical key.
+    Value is a dictionary with mode names as keys and scales (strings) as values.
+    """
+    scale = M_scales[note]
+    mode_space = {}
+    for i in range(7):
+        mode_space.update(make_modes_compact(scale, i))
     return mode_space
 
 def get_search_note():
@@ -203,10 +232,10 @@ for note in A_CHROMATIC:
 #     m_scales.update({f"{note}": minor_scale(f"{note}")})
 
 # A master dictionary containing all notes in A Chromatic, and respective keys' mode-spaces
-# local "all_modes.json" file created by following lines
+# local "mode_space.json" file created by following lines
 # import json
-Mode_Master = {key: construct_mode_space(key) for key in A_CHROMATIC}
+Mode_Master = {key: construct_mode_space_compact(key) for key in A_CHROMATIC}
 # Mode_Master_data = json.dumps(Mode_Master)
 
-# with open("all_modes.json", 'a') as f:
+# with open("mode_space.json", 'a') as f:
 #     f.write(Mode_Master_data)
